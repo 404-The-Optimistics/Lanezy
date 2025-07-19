@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, BarChart3, Clock, Zap, TrendingUp } from 'lucide-react';
 import HowItWorks from './HowItWorks';
+import Dashboard from './Dashboard';
 
 // Navbar Component
-const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick }) => {
+const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick }) => {
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 ${darkMode ? 'bg-[#1A1D22]' : 'bg-white/95'} backdrop-blur-md border-b ${darkMode ? 'border-red-900/20' : 'border-gray-200'}`}>
             <div className="max-w-7xl mx-auto px-6">
@@ -26,9 +27,7 @@ const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick }) =>
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
                         <a href="#" onClick={e => { e.preventDefault(); onHomeClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-white hover:bg-red-900/30' : 'bg-red-500 text-white hover:bg-red-600'} font-medium`}>Home</a>
-                        <a href="#" className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
-                            Dashboard
-                        </a>
+                        <a href="#" onClick={e => { e.preventDefault(); onDashboardClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>Dashboard</a>
                         <a href="#" className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
                             Team
                         </a>
@@ -116,6 +115,7 @@ const StatsCard = ({ title, value, change, icon: Icon, color, darkMode, delay = 
 const Landing = () => {
     const [darkMode, setDarkMode] = useState(true);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
+    const [showDashboard, setShowDashboard] = useState(false);
 
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -154,8 +154,22 @@ const Landing = () => {
 
     return (
         <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-gradient-to-br from-[#15171C] via-red-950/30 to-gray-900' : 'bg-gradient-to-br from-gray-50 via-red-50 to-gray-50'}`} style={darkMode ? { backgroundColor: '#171418' } : {}}>
-            <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} onHowItWorksClick={() => setShowHowItWorks(true)} onHomeClick={() => setShowHowItWorks(false)} />
-            {showHowItWorks ? (
+            <Navbar
+                darkMode={darkMode}
+                toggleDarkMode={toggleDarkMode}
+                onHowItWorksClick={() => { setShowHowItWorks(true); setShowDashboard(false); }}
+                onHomeClick={() => { setShowHowItWorks(false); setShowDashboard(false); }}
+                onDashboardClick={() => { setShowDashboard(true); setShowHowItWorks(false); }}
+            />
+            {showDashboard ? (
+                <Dashboard
+                    darkMode={darkMode}
+                    toggleDarkMode={toggleDarkMode}
+                    onHowItWorksClick={() => { setShowHowItWorks(true); setShowDashboard(false); }}
+                    onHomeClick={() => { setShowHowItWorks(false); setShowDashboard(false); }}
+                    onDashboardClick={() => { setShowDashboard(true); setShowHowItWorks(false); }}
+                />
+            ) : showHowItWorks ? (
                 <HowItWorks darkMode={darkMode} />
             ) : (
                 <>
