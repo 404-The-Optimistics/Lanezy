@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Linkedin, Github, Users, Code, Palette, Database } from 'lucide-react';
+import devangImg from '../assets/devang_singh.jpg';
+import dhruvImg from '../assets/dhruv_sharma.jpg';
+import kunalImg from '../assets/kunal_sharma.jpg';
+import sakshiImg from '../assets/sakshi_singh.jpg';
+import sangyaImg from '../assets/sangya_ojha.jpg';
 
 // Navbar Component (matching the landing page style)
 const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick, onMapClick, onTeamClick }) => {
@@ -118,7 +123,7 @@ const TeamMemberCard = ({ member, darkMode, delay = 0 }) => {
         >
             <div className="relative">
                 {/* Profile Image */}
-                <div className="w-24 h-24 mx-auto mb-4 relative">
+                <div className="w-40 h-40 mx-auto mb-4 relative">
                     <div className="w-full h-full rounded-full overflow-hidden border-4 border-gradient-to-r from-red-500 to-orange-400 shadow-lg">
                         <img
                             src={member.image}
@@ -126,7 +131,7 @@ const TeamMemberCard = ({ member, darkMode, delay = 0 }) => {
                             className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                         />
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-gradient-to-r from-red-500 to-orange-400 rounded-full flex items-center justify-center shadow-lg">
+                    <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-r from-red-500 to-orange-400 rounded-full flex items-center justify-center shadow-lg">
                         {getRoleIcon(member.role)}
                     </div>
                 </div>
@@ -184,35 +189,35 @@ const Team = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDash
         {
             name: "Kunal Sharma",
             role: "Full Stack Developer",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
+            image: kunalImg,
             linkedin: "https://www.linkedin.com/in/kunal-sharma-8b9787334/",
             github: "https://github.com/KunnuSherry"
         },
         {
             name: "Dhruv Sharma",
             role: "Full Stack Developer",
-            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
+            image: dhruvImg,
             linkedin: "https://www.linkedin.com/in/dhruv-sharma-331379154/",
             github: "https://github.com/dhruv0050"
         },
         {
             name: "Sangya Ojha",
             role: "Full Stack Developer",
-            image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+            image: sangyaImg,
             linkedin: "https://www.linkedin.com/in/sangya-ojha-7a58a22a3/",
             github: "https://github.com/sangya-25"
         },
         {
             name: "Devang Singh",
-            role: "Frontend Developer",
-            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
+            role: "Full Stack Developer",
+            image: devangImg,
             linkedin: "https://www.linkedin.com/in/devang-singh-258476284/",
             github: "https://github.com/devang9890"
         },
         {
             name: "Sakshi Singh",
-            role: "Frontend Developer",
-            image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+            role: "Full Stack Developer",
+            image: sakshiImg,
             linkedin: "https://www.linkedin.com/in/sakshi-singh-5176b9373?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
             github: "http://GitHub.com/sakshisingh85"
         }
