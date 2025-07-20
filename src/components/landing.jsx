@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { Sun, Moon, BarChart3, Clock, Zap, TrendingUp } from 'lucide-react';
 import HowItWorks from './HowItWorks';
 import Dashboard from './Dashboard';
+import MapPage from './map';
 
 // Navbar Component
-const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick }) => {
+const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick, onMapClick }) => {
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 ${darkMode ? 'bg-[#1A1D22]' : 'bg-white/95'} backdrop-blur-md border-b ${darkMode ? 'border-red-900/20' : 'border-gray-200'}`}>
             <div className="max-w-7xl mx-auto px-6">
@@ -31,10 +32,7 @@ const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDa
                         <a href="#" className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
                             Team
                         </a>
-                        <a href="#" className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
-                            Live Cam
-                        </a>
-                        <a href="#" className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
+                        <a href="#" onClick={e => { e.preventDefault(); onMapClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
                             Map
                         </a>
                         <a href="#" onClick={e => { e.preventDefault(); onHowItWorksClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
@@ -116,6 +114,7 @@ const Landing = () => {
     const [darkMode, setDarkMode] = useState(true);
     const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showDashboard, setShowDashboard] = useState(false);
+    const [showMap, setShowMap] = useState(false);
 
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -157,20 +156,23 @@ const Landing = () => {
             <Navbar
                 darkMode={darkMode}
                 toggleDarkMode={toggleDarkMode}
-                onHowItWorksClick={() => { setShowHowItWorks(true); setShowDashboard(false); }}
-                onHomeClick={() => { setShowHowItWorks(false); setShowDashboard(false); }}
-                onDashboardClick={() => { setShowDashboard(true); setShowHowItWorks(false); }}
+                onHowItWorksClick={() => { setShowHowItWorks(true); setShowDashboard(false); setShowMap(false); }}
+                onHomeClick={() => { setShowHowItWorks(false); setShowDashboard(false); setShowMap(false); }}
+                onDashboardClick={() => { setShowDashboard(true); setShowHowItWorks(false); setShowMap(false); }}
+                onMapClick={() => { setShowMap(true); setShowDashboard(false); setShowHowItWorks(false); }}
             />
             {showDashboard ? (
                 <Dashboard
                     darkMode={darkMode}
                     toggleDarkMode={toggleDarkMode}
-                    onHowItWorksClick={() => { setShowHowItWorks(true); setShowDashboard(false); }}
-                    onHomeClick={() => { setShowHowItWorks(false); setShowDashboard(false); }}
-                    onDashboardClick={() => { setShowDashboard(true); setShowHowItWorks(false); }}
+                    onHowItWorksClick={() => { setShowHowItWorks(true); setShowDashboard(false); setShowMap(false); }}
+                    onHomeClick={() => { setShowHowItWorks(false); setShowDashboard(false); setShowMap(false); }}
+                    onDashboardClick={() => { setShowDashboard(true); setShowHowItWorks(false); setShowMap(false); }}
                 />
             ) : showHowItWorks ? (
                 <HowItWorks darkMode={darkMode} />
+            ) : showMap ? (
+                <MapPage />
             ) : (
                 <>
                     {/* Background Effects */}
