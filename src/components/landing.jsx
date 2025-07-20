@@ -168,16 +168,28 @@ const Landing = () => {
                                     Smart traffic monitoring system with real-time vehicle detection and flow optimization
                                 </motion.p>
 
-                                <motion.a
-                                    href="#dashboard"
+                                <motion.button
                                     className="inline-block px-8 py-3 rounded-full bg-gradient-to-r from-red-500 to-orange-400 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 mb-8"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.6, delay: 0.5 }}
                                     whileHover={{ scale: 1.08 }}
+                                    onClick={() => { setShowDashboard(true); setShowHowItWorks(false); setShowMap(false); setShowTeam(false); }}
                                 >
-                                    Get Started
-                                </motion.a>
+                                    Live Demo
+                                </motion.button>
+
+                                {/* OUR TEAM Button */}
+                                <motion.button
+                                    className="inline-block px-8 py-3 rounded-full bg-gradient-to-r from-orange-400 to-red-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300 mb-8 ml-4"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.7 }}
+                                    whileHover={{ scale: 1.08 }}
+                                    onClick={() => { setShowTeam(true); setShowDashboard(false); setShowHowItWorks(false); setShowMap(false); }}
+                                >
+                                    OUR TEAM
+                                </motion.button>
 
                                 {/* Traffic Lights Animation */}
                                 <motion.div

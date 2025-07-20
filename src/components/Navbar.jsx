@@ -25,9 +25,6 @@ const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDa
                     >
                         <a href="#" onClick={e => { e.preventDefault(); onHomeClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-white hover:bg-red-900/30' : ' text-white hover:bg-red-900/30'} font-medium`}>Home</a>
                         <a href="#" onClick={e => { e.preventDefault(); onDashboardClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>Dashboard</a>
-                        <a href="#" onClick={e => { e.preventDefault(); onTeamClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
-                            Team
-                        </a>
                         <a href="#" onClick={e => { e.preventDefault(); onMapClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
                             Map
                         </a>
