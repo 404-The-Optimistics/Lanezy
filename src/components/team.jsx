@@ -39,7 +39,7 @@ const TeamMemberCard = ({ member, darkMode, delay = 0 }) => {
                         <img
                             src={member.image}
                             alt={member.name}
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                            className={`w-full h-full object-cover transition-transform duration-300 hover:scale-110 ${member.name === 'Sangya Ojha' ? 'scale-150' : ''}`}
                         />
                     </div>
                     <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-r from-red-500 to-orange-400 rounded-full flex items-center justify-center shadow-lg">
