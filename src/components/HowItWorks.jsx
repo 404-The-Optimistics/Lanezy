@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { BarChart3, Clock, Zap, TrendingUp } from 'lucide-react';
+import Navbar from "./Navbar";
 
 const steps = [
   {
@@ -53,7 +54,7 @@ const HowItWorks = ({ darkMode }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
-          Our smart traffic system uses computer vision, IoT, and real-time logic to optimize traffic flow and safety. Here’s a step-by-step overview:
+          Our smart traffic system uses computer vision, IoT, and real-time logic to optimize traffic flow and safety. Here's a step-by-step overview:
         </motion.p>
         <div className="relative pl-8">
           <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-red-500 via-orange-400 to-yellow-400 rounded-full" />
