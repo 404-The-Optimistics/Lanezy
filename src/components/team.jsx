@@ -1,0 +1,284 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Sun, Moon, Linkedin, Github, Users, Code, Palette, Database } from 'lucide-react';
+
+// Navbar Component (matching the landing page style)
+const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick, onMapClick, onTeamClick }) => {
+    return (
+        <nav className={`fixed top-0 left-0 right-0 z-50 ${darkMode ? 'bg-[#1A1D22]' : 'bg-white/95'} backdrop-blur-md border-b ${darkMode ? 'border-red-900/20' : 'border-gray-200'}`}>
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="flex items-center justify-between h-16">
+                    <motion.div
+                        className="flex items-center space-x-3"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <img src="/vite.svg" alt="Logo" className="w-8 h-8 rounded-full shadow-lg" />
+                        <span className={`text-xl font-bold tracking-wide ${darkMode ? 'text-white' : 'text-gray-900'}`}>TrafficFlow</span>
+                    </motion.div>
+
+                    <motion.div
+                        className="hidden md:flex items-center space-x-8"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        <a 
+                            href="#" 
+                            onClick={e => { 
+                                e.preventDefault(); 
+                                onHomeClick && onHomeClick(); 
+                            }} 
+                            className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}
+                        >
+                            Home
+                        </a>
+                        <a 
+                            href="#" 
+                            onClick={e => { 
+                                e.preventDefault(); 
+                                onDashboardClick && onDashboardClick(); 
+                            }} 
+                            className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}
+                        >
+                            Dashboard
+                        </a>
+                        <a 
+                            href="#" 
+                            onClick={e => { 
+                                e.preventDefault(); 
+                                onTeamClick && onTeamClick(); 
+                            }} 
+                            className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-red-500 text-white hover:bg-red-600'} font-medium`}
+                        >
+                            Team
+                        </a>
+                        <a 
+                            href="#" 
+                            onClick={e => { 
+                                e.preventDefault(); 
+                                onMapClick && onMapClick(); 
+                            }} 
+                            className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}
+                        >
+                            Map
+                        </a>
+                        <a 
+                            href="#" 
+                            onClick={e => { 
+                                e.preventDefault(); 
+                                onHowItWorksClick && onHowItWorksClick(); 
+                            }} 
+                            className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}
+                        >
+                            How Our Project Works
+                        </a>
+                    </motion.div>
+
+                    <motion.button
+                        onClick={toggleDarkMode}
+                        className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'} transition-colors`}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                    </motion.button>
+                </div>
+            </div>
+        </nav>
+    );
+};
+
+// Team Member Card Component
+const TeamMemberCard = ({ member, darkMode, delay = 0 }) => {
+    const getRoleIcon = (role) => {
+        switch (role.toLowerCase()) {
+            case 'full stack developer':
+                return <Code className="w-4 h-4" />;
+            case 'frontend developer':
+                return <Palette className="w-4 h-4" />;
+            default:
+                return <Users className="w-4 h-4" />;
+        }
+    };
+
+    return (
+        <motion.div
+            className={`${darkMode ? 'bg-[#171418] border-2 border-gradient-to-r from-red-500 to-orange-400' : 'bg-white border-2 border-gradient-to-r from-red-400 to-orange-300'} backdrop-blur-sm rounded-3xl p-6 shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-xl ${
+                darkMode ? 'hover:shadow-red-500/10' : 'hover:shadow-red-500/10'
+            }`}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay }}
+            whileHover={{ y: -5, scale: 1.02 }}
+        >
+            <div className="relative">
+                {/* Profile Image */}
+                <div className="w-24 h-24 mx-auto mb-4 relative">
+                    <div className="w-full h-full rounded-full overflow-hidden border-4 border-gradient-to-r from-red-500 to-orange-400 shadow-lg">
+                        <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-gradient-to-r from-red-500 to-orange-400 rounded-full flex items-center justify-center shadow-lg">
+                        {getRoleIcon(member.role)}
+                    </div>
+                </div>
+
+                {/* Member Info */}
+                <div className="text-center mb-4">
+                    <h3 className={`text-xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                        {member.name}
+                    </h3>
+                    <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} flex items-center justify-center gap-2`}>
+                        {getRoleIcon(member.role)}
+                        {member.role}
+                    </p>
+                </div>
+
+                {/* Social Links */}
+                <div className="flex justify-center gap-3">
+                    <motion.a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                            darkMode 
+                                ? 'bg-gray-800 hover:bg-[#0077b5] text-gray-300 hover:text-white' 
+                                : 'bg-gray-100 hover:bg-[#0077b5] text-gray-600 hover:text-white'
+                        } hover:scale-110 hover:shadow-lg`}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <Linkedin size={18} />
+                    </motion.a>
+                    <motion.a
+                        href={member.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                            darkMode 
+                                ? 'bg-gray-800 hover:bg-gray-900 text-gray-300 hover:text-white' 
+                                : 'bg-gray-100 hover:bg-gray-900 text-gray-600 hover:text-white'
+                        } hover:scale-110 hover:shadow-lg`}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <Github size={18} />
+                    </motion.a>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+// Main Team Component
+const Team = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick, onMapClick, onTeamClick }) => {
+    const teamMembers = [
+        {
+            name: "Kunal Sharma",
+            role: "Full Stack Developer",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
+            linkedin: "https://www.linkedin.com/in/kunal-sharma-8b9787334/",
+            github: "https://github.com/KunnuSherry"
+        },
+        {
+            name: "Dhruv Sharma",
+            role: "Full Stack Developer",
+            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
+            linkedin: "https://www.linkedin.com/in/dhruv-sharma-331379154/",
+            github: "https://github.com/dhruv0050"
+        },
+        {
+            name: "Sangya Ojha",
+            role: "Full Stack Developer",
+            image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+            linkedin: "https://www.linkedin.com/in/sangya-ojha-7a58a22a3/",
+            github: "https://github.com/sangya-25"
+        },
+        {
+            name: "Devang Singh",
+            role: "Frontend Developer",
+            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
+            linkedin: "https://www.linkedin.com/in/devang-singh-258476284/",
+            github: "https://github.com/devang9890"
+        },
+        {
+            name: "Sakshi Singh",
+            role: "Frontend Developer",
+            image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+            linkedin: "https://www.linkedin.com/in/sakshi-singh-5176b9373?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+            github: "http://GitHub.com/sakshisingh85"
+        }
+    ];
+
+    return (
+        <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-gradient-to-br from-[#15171C] via-red-950/30 to-gray-900' : 'bg-gradient-to-br from-gray-50 via-red-50 to-gray-50'}`} style={darkMode ? { backgroundColor: '#171418' } : {}}>
+            <Navbar
+                darkMode={darkMode}
+                toggleDarkMode={toggleDarkMode}
+                onHowItWorksClick={onHowItWorksClick}
+                onHomeClick={onHomeClick}
+                onDashboardClick={onDashboardClick}
+                onMapClick={onMapClick}
+                onTeamClick={onTeamClick}
+            />
+
+            {/* Background Effects */}
+            <div className="fixed inset-0 pointer-events-none">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-3xl"></div>
+            </div>
+
+            {/* Main Content */}
+            <div className="pt-24 pb-12 px-6 relative z-10">
+                <div className="max-w-7xl mx-auto">
+                    {/* Header */}
+                    <motion.div
+                        className="text-center mb-12"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h1 className={`text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg ${
+                            darkMode
+                                ? 'bg-gradient-to-r from-[#7C818C] via-[#493A45] to-orange-200 bg-clip-text text-transparent'
+                                : 'bg-gradient-to-r from-red-600 via-red-500 to-orange-500 bg-clip-text text-transparent'
+                        }`}>
+                            Meet Our Team
+                        </h1>
+                        <p className={`text-xl max-w-3xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                            The dedicated developers behind innovative solutions and cutting-edge technology
+                        </p>
+                    </motion.div>
+
+                    {/* Team Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        {teamMembers.map((member, index) => (
+                            <TeamMemberCard
+                                key={member.name}
+                                member={member}
+                                darkMode={darkMode}
+                                delay={0.2 + index * 0.1}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Footer */}
+            <footer className={`w-full py-6 mt-16 ${darkMode ? 'bg-[#1A1D22] text-gray-400' : 'bg-white text-gray-600'} border-t border-red-900/10 text-center text-sm z-50 relative`}>
+                Made with ❤️ by the TrafficFlow Team &copy; {new Date().getFullYear()}
+            </footer>
+        </div>
+    );
+};
+
+export default Team;
