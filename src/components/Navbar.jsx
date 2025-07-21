@@ -14,7 +14,7 @@ const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDa
                         transition={{ duration: 0.6 }}
                     >
                         <img src="/vite.svg" alt="Logo" className="w-8 h-8 rounded-full shadow-lg" />
-                        <span className={`text-xl font-bold tracking-wide ${darkMode ? 'text-white' : 'text-gray-900'}`}>TrafficFlow</span>
+                        <span className={`text-xl font-bold tracking-wide ${darkMode ? 'text-white' : 'text-gray-900'}`}>Red Light</span>
                     </motion.div>
 
                     <div className="flex items-center gap-4">

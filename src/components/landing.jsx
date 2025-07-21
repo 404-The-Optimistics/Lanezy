@@ -156,7 +156,7 @@ const Landing = () => {
                                     ? 'bg-gradient-to-r from-[#7C818C] via-[#493A45] to-orange-200 bg-clip-text text-transparent'
                                     : 'bg-gradient-to-r from-red-600 via-red-500 to-orange-500 bg-clip-text text-transparent'
                                     }`}>
-                                    TrafficFlow Dashboard
+                                    Red Light Dashboard
                                 </h1>
 
                                 <motion.p
