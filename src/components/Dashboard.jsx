@@ -32,7 +32,8 @@ const LaneUpload = ({
   signal,
   darkMode,
   delay = 0,
-  onLoadedData
+  onLoadedData,
+  onOverrideClick // <-- new prop
 }) => {
   const directions = {
     north: { label: "North Lane", icon: ArrowUp, rotation: "rotate-0", color: "from-blue-500 to-cyan-500" },
@@ -88,6 +89,18 @@ const LaneUpload = ({
         
         {renderTrafficLight()}
         
+        {/* Override Button */}
+        <div className="absolute top-4 right-4 z-30">
+          <button
+            onClick={() => onOverrideClick && onOverrideClick(direction)}
+            className={`w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-br from-red-500 via-orange-400 to-yellow-400 shadow-lg hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-red-400/60`}
+            title="Override for Emergency Vehicle"
+          >
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
+        </div>
         {/* Direction Header */}
         <div className="flex items-center justify-center mb-6">
           <div className={`w-12 h-12 bg-gradient-to-r ${directions[direction].color} rounded-full flex items-center justify-center shadow-lg`}>
@@ -177,7 +190,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
   const [cycleOrder, setCycleOrder] = useState([]);
   const timerRef = useRef(null);
   const FPS = 30;
-  const GREEN_DURATION = 10 * FPS; // 10 seconds
+  const GREEN_DURATION = 15 * FPS; // 15 seconds
   const YELLOW_DURATION = 2 * FPS; // 2 seconds
 
   // Track video readiness
@@ -186,6 +199,13 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
   const [countdown, setCountdown] = useState(0);
   // Track current window start index
   const [windowStart, setWindowStart] = useState(0);
+
+  // Emergency override state
+  const [overrideDialog, setOverrideDialog] = useState({ open: false, lane: null });
+  const [isOverriding, setIsOverriding] = useState(false);
+  const overrideTimeoutRef = useRef(null);
+  const normalCycleTimeoutRef = useRef(null);
+  const [overrideCountdown, setOverrideCountdown] = useState(0);
 
   // CSV parsing utility
   function parseCSV(text, lane) {
@@ -390,6 +410,125 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
     }, 2000);
   };
 
+  // Emergency override logic
+  const handleOverrideClick = (lane) => {
+    setOverrideDialog({ open: true, lane });
+  };
+
+  const confirmOverride = () => {
+    const lane = overrideDialog.lane;
+    setOverrideDialog({ open: false, lane: null });
+    setIsOverriding(true);
+    // Pause normal state machine
+    if (normalCycleTimeoutRef.current) clearTimeout(normalCycleTimeoutRef.current);
+    if (overrideTimeoutRef.current) clearInterval(overrideTimeoutRef.current);
+    if (window.overrideMainCountdownInterval) clearInterval(window.overrideMainCountdownInterval);
+    // Set countdown to 30 immediately for override
+    setOverrideCountdown(30);
+    // If already green, extend green for 30s
+    if (currentGreen === lane) {
+      setSignalState(prev => ({
+        N: lane === "north" ? "green" : "red",
+        S: lane === "south" ? "green" : "red",
+        E: lane === "east" ? "green" : "red",
+        W: lane === "west" ? "green" : "red"
+      }));
+      let t = 30;
+      if (window.overrideMainCountdownInterval) clearInterval(window.overrideMainCountdownInterval);
+      window.overrideMainCountdownInterval = setInterval(() => {
+        t -= 1;
+        setOverrideCountdown(t);
+        if (t <= 0) {
+          clearInterval(window.overrideMainCountdownInterval);
+          setIsOverriding(false);
+        }
+      }, 1000);
+      setTimeout(() => {
+        clearInterval(window.overrideMainCountdownInterval);
+        setIsOverriding(false);
+      }, 30000);
+    } else {
+      // Overridden lane green, all others yellow for 3s
+      setSignalState(prev => ({
+        N: lane === "north" ? "green" : "yellow",
+        S: lane === "south" ? "green" : "yellow",
+        E: lane === "east" ? "green" : "yellow",
+        W: lane === "west" ? "green" : "yellow"
+      }));
+      setOverrideCountdown(3);
+      let t = 3;
+      if (overrideTimeoutRef.current) clearInterval(overrideTimeoutRef.current);
+      if (window.overrideMainCountdownInterval) clearInterval(window.overrideMainCountdownInterval);
+      overrideTimeoutRef.current = setInterval(() => {
+        t -= 1;
+        setOverrideCountdown(t);
+        if (t <= 0) {
+          clearInterval(overrideTimeoutRef.current);
+          // Now: all others red, selected lane green for 30s
+          setSignalState(prev => ({
+            N: lane === "north" ? "green" : "red",
+            S: lane === "south" ? "green" : "red",
+            E: lane === "east" ? "green" : "red",
+            W: lane === "west" ? "green" : "red"
+          }));
+          setOverrideCountdown(30);
+          let t2 = 30;
+          if (window.overrideMainCountdownInterval) clearInterval(window.overrideMainCountdownInterval);
+          window.overrideMainCountdownInterval = setInterval(() => {
+            t2 -= 1;
+            setOverrideCountdown(t2);
+            if (t2 <= 0) {
+              clearInterval(window.overrideMainCountdownInterval);
+              setIsOverriding(false);
+            }
+          }, 1000);
+          setTimeout(() => {
+            clearInterval(window.overrideMainCountdownInterval);
+            setIsOverriding(false);
+          }, 30000);
+        }
+      }, 1000);
+      setTimeout(() => {
+        // This timeout is just to ensure the override state is cleared after 33s
+        setIsOverriding(false);
+      }, 33000);
+    }
+  };
+
+  const cancelOverride = () => {
+    setOverrideDialog({ open: false, lane: null });
+  };
+
+  // Pause normal state machine during override
+  useEffect(() => {
+    if (isOverriding) {
+      if (normalCycleTimeoutRef.current) clearTimeout(normalCycleTimeoutRef.current);
+    }
+  }, [isOverriding]);
+
+  const overrideDialogUI = overrideDialog.open && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className={`bg-white dark:bg-[#171418] rounded-2xl p-8 shadow-2xl border-2 border-red-400 max-w-sm w-full text-center`}>
+        <h2 className="text-xl font-bold mb-4 text-red-500">Emergency Override</h2>
+        <p className="mb-6 text-gray-700 dark:text-gray-300">
+          Are you sure you want to override the signal for <span className="font-semibold text-red-600">
+          {overrideDialog.lane && overrideDialog.lane.charAt(0).toUpperCase() + overrideDialog.lane.slice(1)} Lane
+          </span> for an emergency vehicle?
+        </p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={confirmOverride}
+            className="px-6 py-2 rounded-lg bg-gradient-to-r from-red-500 to-orange-400 text-white font-semibold shadow hover:scale-105 transition-transform"
+          >Yes</button>
+          <button
+            onClick={cancelOverride}
+            className="px-6 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold shadow hover:scale-105 transition-transform"
+          >No</button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-gradient-to-br from-[#15171C] via-red-950/30 to-gray-900' : 'bg-gradient-to-br from-gray-50 via-red-50 to-gray-50'}`} style={darkMode ? { backgroundColor: '#171418' } : {}}>
       
@@ -494,6 +633,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                 darkMode={darkMode}
                 delay={1.0 + index * 0.1}
                 onLoadedData={handleVideoReady}
+                onOverrideClick={handleOverrideClick}
               />
             ))}
           </div>
@@ -515,6 +655,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   darkMode={darkMode}
                   delay={1.0}
                   onLoadedData={handleVideoReady}
+                  onOverrideClick={handleOverrideClick}
                 />
               </div>
               <div className="flex justify-center">
@@ -530,6 +671,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   darkMode={darkMode}
                   delay={1.1}
                   onLoadedData={handleVideoReady}
+                  onOverrideClick={handleOverrideClick}
                 />
               </div>
               
@@ -547,6 +689,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   darkMode={darkMode}
                   delay={1.2}
                   onLoadedData={handleVideoReady}
+                  onOverrideClick={handleOverrideClick}
                 />
               </div>
               <div className="flex justify-center">
@@ -562,12 +705,14 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   darkMode={darkMode}
                   delay={1.3}
                   onLoadedData={handleVideoReady}
+                  onOverrideClick={handleOverrideClick}
                 />
               </div>
             </div>
           </div>
         </div>
       </motion.div>
+      {overrideDialogUI}
     </div>
   );
 }
