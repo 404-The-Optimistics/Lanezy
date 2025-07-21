@@ -122,10 +122,10 @@ const Landing = () => {
                 <>
                     {/* Hero Section */}
                     <div className="pt-32 pb-20 px-6 relative z-10">
-                        {/* Decorative Elements */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-red-500/10 animate-pulse-slow"></div>
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-orange-500/20 animate-pulse-slower"></div>
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-yellow-500/30 animate-pulse"></div>
+                        {/* Enhanced Decorative Elements */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-2 border-red-500/10 animate-pulse-slow"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-2 border-orange-500/20 animate-pulse-slower"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border-2 border-yellow-500/30 animate-pulse"></div>
 
                         <div className="max-w-7xl mx-auto text-center relative">
                             <motion.div
@@ -133,16 +133,20 @@ const Landing = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
                             >
-                                <h1 className={`text-7xl md:text-8xl font-bold mb-8 ${
-                                    darkMode
-                                    ? 'bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(239,68,68,0.2)]'
-                                    : 'bg-gradient-to-r from-red-600 via-orange-500 to-yellow-600 bg-clip-text text-transparent drop-shadow-lg'
-                                }`}>
+                                <motion.h1
+                                    className={`text-7xl md:text-8xl font-bold mb-8 ${
+                                        darkMode
+                                        ? 'bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(239,68,68,0.2)]'
+                                        : 'bg-gradient-to-r from-red-600 via-orange-500 to-yellow-600 bg-clip-text text-transparent drop-shadow-lg'
+                                    }`}
+                                    whileHover={{ scale: 1.02 }}
+                                    transition={{ type: "spring", stiffness: 300 }}
+                                >
                                     Red Light
-                                </h1>
+                                </motion.h1>
 
                                 <motion.p
-                                    className={`text-xl md:text-2xl mb-12 max-w-3xl mx-auto font-light ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
+                                    className={`text-xl md:text-2xl mb-16 max-w-3xl mx-auto font-light ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.8, delay: 0.3 }}
@@ -152,39 +156,43 @@ const Landing = () => {
 
                                 <div className="flex flex-wrap justify-center gap-6">
                                     <motion.button
-                                        className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-red-500 to-orange-400 text-white font-semibold overflow-hidden shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-all duration-300"
+                                        className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl overflow-hidden"
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: 0.5 }}
                                         whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                         onClick={() => { setShowDashboard(true); setShowHowItWorks(false); setShowMap(false); setShowTeam(false); }}
                                     >
-                                        <span className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                                        <span className="relative flex items-center">
-                                            Live Demo
-                                            <BarChart3 className="w-5 h-5 ml-2" />
+                                        <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500"></span>
+                                        <span className="absolute inset-0 bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                                        <span className="relative flex items-center space-x-3 text-white font-semibold text-lg px-2">
+                                            <span>Live Demo</span>
+                                            <BarChart3 className="w-5 h-5" />
                                         </span>
                                     </motion.button>
 
                                     <motion.button
-                                        className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-orange-400 to-red-500 text-white font-semibold overflow-hidden shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-all duration-300"
+                                        className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl overflow-hidden"
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: 0.7 }}
                                         whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                         onClick={() => { setShowTeam(true); setShowDashboard(false); setShowHowItWorks(false); setShowMap(false); }}
                                     >
-                                        <span className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                                        <span className="relative flex items-center">
-                                            OUR TEAM
-                                            <Users className="w-5 h-5 ml-2" />
+                                        <span className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-orange-500"></span>
+                                        <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                                        <span className="relative flex items-center space-x-3 text-white font-semibold text-lg px-2">
+                                            <span>OUR TEAM</span>
+                                            <Users className="w-5 h-5" />
                                         </span>
                                     </motion.button>
                                 </div>
 
                                 {/* Traffic Lights Animation */}
                                 <motion.div
-                                    className="flex justify-center items-center space-x-12 mt-16"
+                                    className="flex justify-center items-center space-x-12 mt-24 mb-16"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.8, delay: 0.5 }}
@@ -199,7 +207,8 @@ const Landing = () => {
                                     <motion.h1
                                         className="text-4xl md:text-5xl font-bold mb-6 text-center bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent"
                                         initial={{ opacity: 0, y: 30 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
                                         transition={{ duration: 0.7 }}
                                     >
                                         How Does the Project Work?
@@ -207,7 +216,8 @@ const Landing = () => {
                                     <motion.p
                                         className="text-lg mb-12 text-center max-w-2xl mx-auto text-gray-300"
                                         initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
+                                        whileInView={{ opacity: 1 }}
+                                        viewport={{ once: true }}
                                         transition={{ duration: 0.7, delay: 0.2 }}
                                     >
                                         Our smart traffic system uses computer vision, IoT, and real-time logic to optimize traffic flow and safety. Here's a step-by-step overview:
@@ -217,12 +227,14 @@ const Landing = () => {
                                         {steps.map((step, idx) => (
                                             <motion.div
                                                 key={step.title}
-                                                className="flex items-start space-x-4 p-6 mb-6 rounded-xl shadow-lg relative bg-[#171418] text-center"
-                                                initial={{ opacity: 0, y: 30 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.5, delay: 0.3 + idx * 0.1 }}
+                                                className="flex items-start space-x-4 p-6 mb-6 rounded-xl shadow-lg relative bg-[#171418]/80 backdrop-blur-sm text-center hover:bg-[#1a1719] transition-all duration-300"
+                                                initial={{ opacity: 0, x: -50 }}
+                                                whileInView={{ opacity: 1, x: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.5, delay: 0.2 + idx * 0.1 }}
+                                                whileHover={{ scale: 1.02, x: 10 }}
                                             >
-                                                <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${step.color} shadow-md absolute -left-16 top-1/2 -translate-y-1/2`}>
+                                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${step.color} shadow-lg absolute -left-16 top-1/2 -translate-y-1/2 transform hover:rotate-6 transition-transform duration-300`}>
                                                     {step.icon}
                                                 </div>
                                                 <div className="w-full text-center">
@@ -235,55 +247,71 @@ const Landing = () => {
                                 </div>
 
                                 {/* Tech Stack & Traffic Logic */}
-                                <div className="grid md:grid-cols-2 gap-8 mt-16 max-w-4xl mx-auto">
+                                <div className="grid md:grid-cols-2 gap-8 mt-24 max-w-4xl mx-auto">
                                     {/* Tech Stack */}
                                     <motion.div
-                                        className="bg-[#171418] border-red-900/30 border rounded-xl p-8 shadow-xl backdrop-blur-sm text-center"
+                                        className="group bg-[#171418]/80 backdrop-blur-sm border border-red-900/20 rounded-xl p-8 shadow-xl text-center hover:bg-[#1a1719] transition-all duration-300"
                                         initial={{ opacity: 0, y: 40 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
                                         transition={{ duration: 0.6, delay: 0.2 }}
+                                        whileHover={{ scale: 1.02 }}
                                     >
-                                        <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">🏗️ Tech Stack</h3>
+                                        <h3 className="text-2xl font-bold mb-8 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">🏗️ Tech Stack</h3>
                                         <div className="space-y-4">
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-gray-300">Frontend:</span>
-                                                <span className="text-blue-400 font-semibold">React.js</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-gray-300">Backend (AI):</span>
-                                                <span className="text-green-400 font-semibold">FastAPI + YOLOv5 + OpenCV</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-gray-300">Logic Controller:</span>
-                                                <span className="text-yellow-400 font-semibold">Node.js + Express</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-gray-300">Hardware:</span>
-                                                <span className="text-red-400 font-semibold">Arduino UNO + ESP8266 Wi-Fi</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-medium text-gray-300">Communication:</span>
-                                                <span className="text-orange-400 font-semibold">HTTP/WebSocket</span>
-                                            </div>
+                                            {[
+                                                { label: "Frontend", value: "React.js", color: "text-blue-400" },
+                                                { label: "Backend (AI)", value: "FastAPI + YOLOv5 + OpenCV", color: "text-green-400" },
+                                                { label: "Logic Controller", value: "Node.js + Express", color: "text-yellow-400" },
+                                                { label: "Hardware", value: "Arduino UNO + ESP8266 Wi-Fi", color: "text-red-400" },
+                                                { label: "Communication", value: "HTTP/WebSocket", color: "text-orange-400" }
+                                            ].map((item, idx) => (
+                                                <motion.div
+                                                    key={item.label}
+                                                    className="flex justify-between items-center p-4 rounded-lg bg-[#1a1719]/50 hover:bg-[#1a1719] transition-all duration-300"
+                                                    initial={{ opacity: 0, x: -20 }}
+                                                    whileInView={{ opacity: 1, x: 0 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ delay: 0.3 + idx * 0.1 }}
+                                                >
+                                                    <span className="font-medium text-gray-300">{item.label}:</span>
+                                                    <span className={`${item.color} font-semibold`}>{item.value}</span>
+                                                </motion.div>
+                                            ))}
                                         </div>
                                     </motion.div>
+
                                     {/* Traffic Logic Rules */}
                                     <motion.div
-                                        className="bg-[#171418] border-red-900/30 border rounded-xl p-8 shadow-xl backdrop-blur-sm text-center"
+                                        className="group bg-[#171418]/80 backdrop-blur-sm border border-red-900/20 rounded-xl p-8 shadow-xl text-center hover:bg-[#1a1719] transition-all duration-300"
                                         initial={{ opacity: 0, y: 40 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
                                         transition={{ duration: 0.6, delay: 0.3 }}
+                                        whileHover={{ scale: 1.02 }}
                                     >
-                                        <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">🔁 Traffic Logic Rules</h3>
-                                        <div className="space-y-4">
-                                            <div className="p-4 rounded-lg bg-[#2a232b]"> 
-                                                <h4 className="font-semibold mb-2 text-red-400">Core Rule:</h4>
-                                                <p className="text-gray-300 text-sm">Only <strong>1 lane</strong> can have a green signal at any given time</p>
-                                            </div>
-                                            <div className="p-4 rounded-lg bg-[#2a232b]"> 
-                                                <h4 className="font-semibold mb-2 text-orange-400">Priority Logic:</h4>
-                                                <div className="bg-[#231E24] p-3 rounded font-mono text-sm text-green-400">{`if (laneA > laneB && laneA > laneC && laneA > laneD) {\n    green = A\n}`}</div>
-                                            </div>
+                                        <h3 className="text-2xl font-bold mb-8 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">🔁 Traffic Logic Rules</h3>
+                                        <div className="space-y-6">
+                                            <motion.div
+                                                className="p-6 rounded-lg bg-[#1a1719]/50 hover:bg-[#1a1719] transition-all duration-300"
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: 0.4 }}
+                                            >
+                                                <h4 className="font-semibold mb-3 text-xl text-red-400">Core Rule:</h4>
+                                                <p className="text-gray-300">Only <strong>1 lane</strong> can have a green signal at any given time</p>
+                                            </motion.div>
+                                            <motion.div
+                                                className="p-6 rounded-lg bg-[#1a1719]/50 hover:bg-[#1a1719] transition-all duration-300"
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: 0.5 }}
+                                            >
+                                                <h4 className="font-semibold mb-3 text-xl text-orange-400">Priority Logic:</h4>
+                                                <div className="bg-[#231E24] p-4 rounded-lg font-mono text-sm text-green-400 shadow-inner">{`if (laneA > laneB && laneA > laneC && laneA > laneD) {\n    green = A\n}`}</div>
+                                            </motion.div>
                                         </div>
                                     </motion.div>
                                 </div>
