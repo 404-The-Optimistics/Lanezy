@@ -134,7 +134,7 @@ const Landing = ({ darkMode, toggleDarkMode }) => {
                             >
                                 {/* Title with enhanced styling */}
                                 <motion.h1
-                                    className="text-7xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(239,68,68,0.3)]"
+                                    className="text-7xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(239,68,68,0.3)] font-serif"
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                 >
@@ -142,7 +142,8 @@ const Landing = ({ darkMode, toggleDarkMode }) => {
                                 </motion.h1>
 
                                 <motion.p
-                                    className="text-xl md:text-2xl mb-16 max-w-3xl mx-auto font-light text-gray-300"
+                                    // text-xl md:text-2xl mb-16 max-w-3xl mx-auto font-light text-gray-300 font-serif"
+                                    className={`text-xl md:text-2xl mb-16 max-w-3xl ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto `}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.8, delay: 0.3 }}
@@ -159,7 +160,7 @@ const Landing = ({ darkMode, toggleDarkMode }) => {
                                         transition={{ duration: 0.6, delay: 0.5 }}
                                         whileHover={{ scale: 1.05, y: -5 }}
                                         whileTap={{ scale: 0.95 }}
-                                        onClick={() => { setShowDashboard(true); setShowHowItWorks(false); setShowMap(false); setShowTeam(false); }}
+                                        onClick={() => navigate('/dashboard')}
                                     >
                                         <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500"></span>
                                         <span className="absolute inset-0 bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
