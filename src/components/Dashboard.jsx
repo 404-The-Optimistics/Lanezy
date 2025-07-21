@@ -419,6 +419,8 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
     const lane = overrideDialog.lane;
     setOverrideDialog({ open: false, lane: null });
     setIsOverriding(true);
+    // Set the current green lane to the overridden lane
+    setCurrentGreen(lane);
     // Pause normal state machine
     if (normalCycleTimeoutRef.current) clearTimeout(normalCycleTimeoutRef.current);
     if (overrideTimeoutRef.current) clearInterval(overrideTimeoutRef.current);
