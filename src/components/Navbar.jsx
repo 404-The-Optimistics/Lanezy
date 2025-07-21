@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sun, Moon} from 'lucide-react';
+import { Sun, Moon, Github } from 'lucide-react';
 
 const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick, onMapClick, onTeamClick }) => {
     return (
@@ -17,29 +17,45 @@ const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDa
                         <span className={`text-xl font-bold tracking-wide ${darkMode ? 'text-white' : 'text-gray-900'}`}>TrafficFlow</span>
                     </motion.div>
 
-                    <motion.div
-                        className="hidden md:flex items-center space-x-8"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <a href="#" onClick={e => { e.preventDefault(); onHomeClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-white hover:bg-red-900/30' : ' text-white hover:bg-red-900/30'} font-medium`}>Home</a>
-                        <a href="#" onClick={e => { e.preventDefault(); onDashboardClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>Dashboard</a>
-                        <a href="#" onClick={e => { e.preventDefault(); onMapClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
-                            Map
-                        </a>
-                        <motion.button
-                            onClick={toggleDarkMode}
-                            className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'} transition-colors`}
+                    <div className="flex items-center gap-4">
+                        <motion.div
+                            className="hidden md:flex items-center space-x-8"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            <a href="#" onClick={e => { e.preventDefault(); onHomeClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-white hover:bg-red-900/30' : ' text-white hover:bg-red-900/30'} font-medium`}>Home</a>
+                            <a href="#" onClick={e => { e.preventDefault(); onDashboardClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>Dashboard</a>
+                            <a href="#" onClick={e => { e.preventDefault(); onMapClick(); }} className={`px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${darkMode ? 'text-gray-300 hover:text-white hover:bg-red-900/30' : 'text-gray-600 hover:text-gray-900 hover:bg-red-50'} transition-colors`}>
+                                Map
+                            </a>
+                            <motion.button
+                                onClick={toggleDarkMode}
+                                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'} transition-colors`}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                            >
+                                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                            </motion.button>
+                        </motion.div>
+                        <motion.a
+                            href="https://github.com/404-The-Optimistics/f-Red-Light"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`ml-4 p-2 rounded-lg flex items-center justify-center transition-colors duration-200 ${darkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-900 hover:text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-900 hover:text-white'}`}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
+                            transition={{ duration: 0.6, delay: 0.5 }}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
+                            aria-label="GitHub Repository"
                         >
-                            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-                        </motion.button>
-                    </motion.div>
+                            <Github size={22} />
+                        </motion.a>
+                    </div>
                 </div>
             </div>
         </nav>
