@@ -2,19 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   Upload, 
-  Play, 
-  Pause, 
-  RotateCcw, 
   Activity, 
   Car, 
   Truck, 
   Bus,
   Camera,
-  AlertCircle,
-  CheckCircle,
   Clock,
   Eye,
-  MapPin,
   Bike,
   ArrowUp,
   ArrowDown,
@@ -22,11 +16,6 @@ import {
   ArrowRight,
   Signal,
   TrendingUp,
-  Users,
-  Zap,
-  Sun,
-  Moon,
-  BarChart3
 } from "lucide-react";
 import Navbar from "./Navbar";
 
@@ -42,7 +31,8 @@ const LaneUpload = ({
   isActive,
   signal,
   darkMode,
-  delay = 0
+  delay = 0,
+  onLoadedData
 }) => {
   const directions = {
     north: { label: "North Lane", icon: ArrowUp, rotation: "rotate-0", color: "from-blue-500 to-cyan-500" },
@@ -113,95 +103,30 @@ const LaneUpload = ({
         </div>
 
         {/* Upload Area or Video Display */}
-        {!frame ? (
-          <div className={`relative border-2 border-dashed ${
-            darkMode ? 'border-gray-600 hover:border-red-400 hover:bg-red-400/5' : 'border-gray-300 hover:border-red-400 hover:bg-red-50'
-          } rounded-2xl p-8 text-center h-40 flex flex-col items-center justify-center cursor-pointer transition-all duration-300`}>
-            <input
-              type="file"
-              accept="video/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) onUpload(file, direction);
-              }}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              disabled={loading}
-            />
-            
-            <div className={`transition-transform duration-300 ${loading ? 'animate-spin' : ''}`}>
-              {loading ? (
-                <Clock className="w-12 h-12 text-red-400 mb-3" />
-              ) : (
-                <Upload className={`w-12 h-12 ${darkMode ? 'text-gray-400' : 'text-gray-500'} mb-3`} />
-              )}
-            </div>
-            
-            <p className={`text-base ${darkMode ? 'text-white' : 'text-gray-900'} font-medium mb-1`}>
-              {loading ? "Processing..." : "Upload Video"}
-            </p>
-            <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} text-center`}>
-              {loading ? "Analyzing traffic..." : "Drop video file or click to browse"}
-            </p>
-          </div>
-        ) : (
-          <div className="relative rounded-2xl overflow-hidden">
-            <img
-              src={`data:image/jpeg;base64,${frame}`}
-              alt={`${direction} lane detection`}
-              className="w-full h-48 object-cover bg-black"
-            />
-            <div className="absolute top-3 right-3">
-              <div className="bg-green-500/90 backdrop-blur-sm rounded-full p-2 animate-pulse">
-                <Eye className="w-4 h-4 text-white" />
-              </div>
+        <div className="relative rounded-2xl overflow-hidden">
+          <video
+            src={(() => {
+              switch (direction) {
+                case 'north': return '/Videos/North_Lane.mp4';
+                case 'south': return '/Videos/South_Lane.mp4';
+                case 'east': return '/Videos/East_Lane.mp4';
+                case 'west': return '/Videos/West_Lane.mp4';
+                default: return '';
+              }
+            })()}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-48 object-cover bg-black"
+            onLoadedData={() => onLoadedData && onLoadedData(direction)}
+          />
+          <div className="absolute top-3 right-3">
+            <div className="bg-green-500/90 backdrop-blur-sm rounded-full p-2 animate-pulse">
+              <Eye className="w-4 h-4 text-white" />
             </div>
           </div>
-        )}
-
-        {/* Vehicle Counts */}
-        {counts && Object.keys(counts).length > 0 && (
-          <div className="mt-4">
-            <h4 className={`text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 flex items-center gap-2`}>
-              <Activity className="w-4 h-4 text-emerald-400" />
-              Live Detection
-            </h4>
-            <div className="grid grid-cols-2 gap-2">
-              {Object.entries(counts).map(([vehicle, count]) => {
-                const getVehicleIcon = (type) => {
-                  switch (type.toLowerCase()) {
-                    case 'car': return Car;
-                    case 'truck': return Truck;
-                    case 'bus': return Bus;
-                    case 'motorcycle':
-                    case 'motorbike':
-                    case 'bike':
-                    case 'bicycle': return Bike;
-                    default: return Car;
-                  }
-                };
-                
-                const VehicleIcon = getVehicleIcon(vehicle);
-                
-                return (
-                  <div
-                    key={vehicle}
-                    className={`${
-                      darkMode ? 'bg-gray-800/80 hover:bg-gray-700/80' : 'bg-gray-100/80 hover:bg-gray-200/80'
-                    } rounded-xl p-3 flex items-center justify-between transition-colors`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <VehicleIcon className="w-4 h-4 text-red-400" />
-                      <span className={`text-xs ${darkMode ? 'text-gray-300' : 'text-gray-700'} capitalize`}>{vehicle}</span>
-                    </div>
-                    <span className="text-sm font-bold text-emerald-400">
-                      {count}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        </div>
 
         {/* Status Indicator */}
         <div className="absolute top-4 right-4">
@@ -239,38 +164,210 @@ const StatsCard = ({ title, value, icon: Icon, color = "red", darkMode, delay = 
 
 function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick }) {
   const [lanes, setLanes] = useState({
-    north: { counts: { car: 5, truck: 2, bus: 1 }, frame: "", loading: false },
-    south: { counts: { car: 8, motorcycle: 3 }, frame: "", loading: false },
-    east: { counts: { car: 3, truck: 1, bus: 2 }, frame: "", loading: false },
-    west: { counts: { car: 6, motorcycle: 1 }, frame: "", loading: false }
+    north: { counts: {}, frame: "", loading: false },
+    south: { counts: {}, frame: "", loading: false },
+    east: { counts: {}, frame: "", loading: false },
+    west: { counts: {}, frame: "", loading: false }
+  });
+  const [signalState, setSignalState] = useState({ N: "red", S: "red", E: "red", W: "red" });
+  const [csvData, setCsvData] = useState({ north: [], south: [], east: [], west: [] });
+  const [currentWindow, setCurrentWindow] = useState(0);
+  const [currentGreen, setCurrentGreen] = useState(null);
+  const [currentYellow, setCurrentYellow] = useState(null);
+  const [cycleOrder, setCycleOrder] = useState([]);
+  const timerRef = useRef(null);
+  const FPS = 30;
+  const GREEN_DURATION = 10 * FPS; // 10 seconds
+  const YELLOW_DURATION = 2 * FPS; // 2 seconds
+
+  // Track video readiness
+  const [videoReady, setVideoReady] = useState({ north: false, south: false, east: false, west: false });
+  // Track time left for countdown
+  const [countdown, setCountdown] = useState(0);
+  // Track current window start index
+  const [windowStart, setWindowStart] = useState(0);
+
+  // CSV parsing utility
+  function parseCSV(text, lane) {
+    const lines = text.trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    const frameIdx = headers.findIndex(h => h.trim().toLowerCase() === "frame");
+    const totalIdx = headers.findIndex(h => h.trim().toLowerCase() === "total");
+    if (frameIdx === -1 || totalIdx === -1) return [];
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      return {
+        frame: parseInt(cols[frameIdx], 10),
+        total: parseInt(cols[totalIdx], 10)
+      };
+    });
+  }
+
+  // Fetch and parse all CSVs on mount
+  useEffect(() => {
+    async function fetchCSVs() {
+      const files = {
+        north: "/Videos/North.csv",
+        south: "/Videos/South.csv",
+        east: "/Videos/East.csv",
+        west: "/Videos/West.csv"
+      };
+      const data = {};
+      for (const lane of Object.keys(files)) {
+        try {
+          const res = await fetch(files[lane]);
+          const text = await res.text();
+          data[lane] = parseCSV(text, lane);
+        } catch (e) {
+          data[lane] = [];
+        }
+      }
+      setCsvData(data);
+    }
+    fetchCSVs();
+  }, []);
+
+  // Traffic light state machine
+  useEffect(() => {
+    if (!csvData.north.length || !csvData.south.length || !csvData.east.length || !csvData.west.length) return;
+    let phase = 'green';
+    let timeLeft = GREEN_DURATION / FPS;
+    let windowIdx = 0;
+    let order = [];
+    let cycleIdx = 0;
+    let running = true;
+    let timeoutId = null;
+    let intervalId = null;
+
+    function getWindowSums(start) {
+      const sums = {};
+      for (const lane of ["north", "south", "east", "west"]) {
+        const arr = csvData[lane];
+        let sum = 0;
+        for (let i = start; i < Math.min(start + GREEN_DURATION, arr.length); i++) {
+          sum += arr[i]?.total || 0;
+        }
+        sums[lane] = sum;
+      }
+      return sums;
+    }
+
+    function runCycle(idx, prevGreen) {
+      setWindowStart(idx * GREEN_DURATION);
+      const sums = getWindowSums(idx * GREEN_DURATION);
+      const sorted = Object.entries(sums).sort((a, b) => b[1] - a[1]).map(([lane]) => lane);
+      order = sorted;
+      setCycleOrder(order);
+      cycleIdx = 0;
+      nextPhase();
+    }
+
+    function nextPhase() {
+      if (!running) return;
+      const greenLane = order[cycleIdx % 4];
+      setCurrentGreen(greenLane);
+      setSignalState({
+        N: greenLane === "north" ? "green" : "red",
+        S: greenLane === "south" ? "green" : "red",
+        E: greenLane === "east" ? "green" : "red",
+        W: greenLane === "west" ? "green" : "red"
+      });
+      phase = 'green';
+      timeLeft = GREEN_DURATION / FPS;
+      setCountdown(timeLeft);
+      setWindowStart(windowIdx * GREEN_DURATION);
+      intervalId = setInterval(() => {
+        timeLeft -= 1;
+        setCountdown(timeLeft);
+        if (timeLeft <= 0) clearInterval(intervalId);
+      }, 1000);
+      // Green phase
+      timeoutId = setTimeout(() => {
+        setCurrentYellow(greenLane);
+        setSignalState(prev => ({
+          ...prev,
+          [greenLane.charAt(0).toUpperCase()]: "yellow"
+        }));
+        phase = 'yellow';
+        timeLeft = YELLOW_DURATION / FPS;
+        setCountdown(timeLeft);
+        clearInterval(intervalId);
+        intervalId = setInterval(() => {
+          timeLeft -= 1;
+          setCountdown(timeLeft);
+          if (timeLeft <= 0) clearInterval(intervalId);
+        }, 1000);
+        // Yellow phase
+        timeoutId = setTimeout(() => {
+          setCurrentYellow(null);
+          setSignalState({
+            N: "red", S: "red", E: "red", W: "red"
+          });
+          cycleIdx++;
+          if (cycleIdx % 4 === 0) {
+            windowIdx++;
+            runCycle(windowIdx, greenLane);
+          } else {
+            setWindowStart(windowIdx * GREEN_DURATION);
+            nextPhase();
+          }
+        }, YELLOW_DURATION * (1000 / FPS));
+      }, GREEN_DURATION * (1000 / FPS));
+    }
+
+    runCycle(windowIdx, null);
+    return () => {
+      running = false;
+      if (timeoutId) clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
+    // eslint-disable-next-line
+  }, [csvData]);
+
+  // Set video playback rate to 0.33x
+  useEffect(() => {
+    const rates = document.querySelectorAll("video");
+    rates.forEach(v => { v.playbackRate = 0.33; });
   });
   
-  const [signalState, setSignalState] = useState({ 
-    N: "green", 
-    S: "red", 
-    E: "yellow", 
-    W: "red" 
-  });
-
   // Helper functions
   const sumCounts = (counts) => Object.values(counts).reduce((a, b) => a + b, 0);
   
-  const getTotalCounts = () => {
-    const totals = {};
-    Object.values(lanes).forEach(lane => {
-      Object.entries(lane.counts).forEach(([vehicle, count]) => {
-        totals[vehicle] = (totals[vehicle] || 0) + count;
-      });
-    });
-    return totals;
+  // Helper: Current window vehicle flow (sum of all vehicles in current 10s window)
+  const getCurrentWindowVehicleFlow = () => {
+    let total = 0;
+    for (const lane of Object.keys(csvData)) {
+      const arr = csvData[lane];
+      for (let i = windowStart; i < Math.min(windowStart + GREEN_DURATION, arr.length); i++) {
+        total += arr[i]?.total || 0;
+      }
+    }
+    return total;
   };
 
+  // Helper to check if all videos are loaded
   const getActiveLanes = () => {
-    return Object.entries(lanes).filter(([_, lane]) => Object.keys(lane.counts).length > 0).length;
+    return Object.values(videoReady).filter(Boolean).length;
   };
 
-  const getTotalVehicles = () => {
-    return Object.values(getTotalCounts()).reduce((a, b) => a + b, 0);
+  // Helper for current green lane label
+  const getCurrentGreenLabel = () => {
+    if (!currentGreen) return 'None';
+    return currentGreen.charAt(0).toUpperCase() + currentGreen.slice(1) + ' Lane';
+  };
+
+  // Helper for next green lane label
+  const getNextGreenLabel = () => {
+    if (!cycleOrder.length || !currentGreen) return 'None';
+    const idx = cycleOrder.indexOf(currentGreen);
+    const nextIdx = (idx + 1) % cycleOrder.length;
+    const nextLane = cycleOrder[nextIdx];
+    return nextLane.charAt(0).toUpperCase() + nextLane.slice(1) + ' Lane';
+  };
+
+  // Pass onLoadedData to LaneUpload to track video readiness
+  const handleVideoReady = (direction) => {
+    setVideoReady(prev => ({ ...prev, [direction]: true }));
   };
 
   // Mock upload function
@@ -324,7 +421,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
               ? 'bg-gradient-to-r from-[#7C818C] via-[#493A45] to-orange-200 bg-clip-text text-transparent'
               : 'bg-gradient-to-r from-red-600 via-red-500 to-orange-500 bg-clip-text text-transparent'
           } font-serif`}>
-            Smart Crossroad Monitor
+           Red Light Dashboard
           </h1>
           <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
             Real-time vehicle detection and traffic flow analysis using advanced YOLO computer vision technology
@@ -335,80 +432,38 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
         <div className="max-w-7xl mx-auto px-6 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatsCard 
-              title="Total Vehicles" 
-              value={getTotalVehicles()} 
-              icon={Car} 
-              color="red" 
-              darkMode={darkMode}
-              delay={0.2}
-            />
-            <StatsCard 
               title="Active Lanes" 
               value={`${getActiveLanes()}/4`} 
               icon={Activity} 
               color="red" 
               darkMode={darkMode}
+              delay={0.2}
+            />
+            <StatsCard 
+              title="Countdown" 
+              value={`${countdown > 0 ? countdown : 0}s`} 
+              icon={Clock} 
+              color="red" 
+              darkMode={darkMode}
               delay={0.3}
             />
             <StatsCard 
-              title="Detection Rate" 
-              value="98%" 
-              icon={Eye} 
+              title="Current Green Lane" 
+              value={getCurrentGreenLabel()} 
+              icon={Signal} 
               color="red" 
               darkMode={darkMode}
               delay={0.4}
             />
             <StatsCard 
-              title="Avg Wait Time" 
-              value="2.3m" 
-              icon={Clock} 
+              title="Next Lane" 
+              value={getNextGreenLabel()} 
+              icon={ArrowRight} 
               color="red" 
               darkMode={darkMode}
               delay={0.5}
             />
           </div>
-
-          {/* Vehicle Type Breakdown */}
-          <motion.div
-            className={`${darkMode ? 'bg-[#171418] border-2 border-gradient-to-r from-red-500 to-orange-400' : 'bg-white border-2 border-gradient-to-r from-red-400 to-orange-300'} rounded-2xl p-6 mb-12 backdrop-blur-sm hover:shadow-xl ${darkMode ? 'hover:shadow-red-500/10' : 'hover:shadow-red-500/10'} transition-all duration-300`}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            whileHover={{ y: -5, scale: 1.05 }}
-          >
-            <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              Vehicle Distribution
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {Object.entries(getTotalCounts()).map(([vehicle, count]) => {
-                const getVehicleIcon = (type) => {
-                  switch (type.toLowerCase()) {
-                    case 'car': return Car;
-                    case 'truck': return Truck;
-                    case 'bus': return Bus;
-                    case 'motorcycle':
-                    case 'motorbike':
-                    case 'bike':
-                    case 'bicycle': return Bike;
-                    default: return Car;
-                  }
-                };
-                
-                const VehicleIcon = getVehicleIcon(vehicle);
-                
-                return (
-                  <div key={vehicle} className="text-center">
-                    <div className={`${darkMode ? 'bg-gray-800/60 hover:bg-gray-700/60' : 'bg-gray-100/60 hover:bg-gray-200/60'} rounded-xl p-4 mb-2 transition-colors`}>
-                      <VehicleIcon className="w-8 h-8 text-red-400 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-emerald-400 mb-1">{count}</div>
-                      <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'} capitalize`}>{vehicle}s</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
         </div>
 
         {/* Lane Monitoring Grid */}
@@ -438,6 +493,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                 signal={signalState[direction.charAt(0).toUpperCase()]}
                 darkMode={darkMode}
                 delay={1.0 + index * 0.1}
+                onLoadedData={handleVideoReady}
               />
             ))}
           </div>
@@ -458,6 +514,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   signal={signalState.N}
                   darkMode={darkMode}
                   delay={1.0}
+                  onLoadedData={handleVideoReady}
                 />
               </div>
               <div className="flex justify-center">
@@ -472,6 +529,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   signal={signalState.E}
                   darkMode={darkMode}
                   delay={1.1}
+                  onLoadedData={handleVideoReady}
                 />
               </div>
               
@@ -488,6 +546,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   signal={signalState.W}
                   darkMode={darkMode}
                   delay={1.2}
+                  onLoadedData={handleVideoReady}
                 />
               </div>
               <div className="flex justify-center">
@@ -502,6 +561,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
                   signal={signalState.S}
                   darkMode={darkMode}
                   delay={1.3}
+                  onLoadedData={handleVideoReady}
                 />
               </div>
             </div>

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Github, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDashboardClick, onMapClick, onTeamClick }) => {
+const Navbar = ({ darkMode, toggleDarkMode }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const navItems = [
-        { label: 'Home', onClick: onHomeClick },
-        { label: 'Dashboard', onClick: onDashboardClick },
-        { label: 'Map', onClick: onMapClick },
-        { label: 'Team', onClick: onTeamClick },
+        { label: 'Home', onClick: () => navigate('/') },
+        { label: 'Dashboard', onClick: () => navigate('/dashboard') },
+        { label: 'Map', onClick: () => navigate('/map') },
     ];
 
     return (
@@ -38,7 +39,7 @@ const Navbar = ({ darkMode, toggleDarkMode, onHowItWorksClick, onHomeClick, onDa
                             darkMode 
                             ? 'from-red-500 via-orange-400 to-yellow-500' 
                             : 'from-red-600 via-orange-500 to-yellow-600'
-                        } bg-clip-text text-transparent`}>
+                        } bg-clip-text text-transparent`} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                             Red Light
                         </span>
                     </motion.div>

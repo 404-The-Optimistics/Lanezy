@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import MapPage from './map';
 import Team from './team';
 import Navbar from "./Navbar";
+import { useNavigate } from 'react-router-dom';
 
 // Traffic Light Component
 const TrafficLight = ({ darkMode, delay = 0 }) => {
@@ -66,14 +67,12 @@ const steps = [
   },
 ];
 
-const Landing = () => {
-    const [darkMode, setDarkMode] = useState(true);
+const Landing = ({ darkMode, toggleDarkMode }) => {
     const [showHowItWorks, setShowHowItWorks] = useState(false);
     const [showDashboard, setShowDashboard] = useState(false);
     const [showMap, setShowMap] = useState(false);
     const [showTeam, setShowTeam] = useState(false);
-
-    const toggleDarkMode = () => setDarkMode(!darkMode);
+    const navigate = useNavigate();
 
     return (
         <div className={`min-h-screen transition-colors duration-500 relative overflow-hidden ${darkMode ? 'bg-[#0B0F1A]' : 'bg-gray-50'}`}>
@@ -165,7 +164,7 @@ const Landing = () => {
                                         <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500"></span>
                                         <span className="absolute inset-0 bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                                         <span className="relative flex items-center space-x-3 text-white font-semibold text-lg px-2">
-                                            <span>Live Demo</span>
+                                            <span>Get Started</span>
                                             <BarChart3 className="w-5 h-5" />
                                         </span>
                                     </motion.button>
@@ -177,12 +176,12 @@ const Landing = () => {
                                         transition={{ duration: 0.6, delay: 0.7 }}
                                         whileHover={{ scale: 1.05, y: -5 }}
                                         whileTap={{ scale: 0.95 }}
-                                        onClick={() => { setShowTeam(true); setShowDashboard(false); setShowHowItWorks(false); setShowMap(false); }}
+                                        onClick={() => { navigate('/team'); }}
                                     >
                                         <span className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-orange-500"></span>
                                         <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                                         <span className="relative flex items-center space-x-3 text-white font-semibold text-lg px-2">
-                                            <span>OUR TEAM</span>
+                                            <span>Our Team</span>
                                             <Users className="w-5 h-5" />
                                         </span>
                                     </motion.button>
