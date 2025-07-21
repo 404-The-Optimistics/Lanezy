@@ -32,32 +32,39 @@ const TrafficLight = ({ darkMode, delay = 0 }) => {
     );
 };
 
-// Stats Card Component
-const StatsCard = ({ title, value, change, icon: Icon, color, darkMode, delay = 0 }) => {
-    return (
-        <motion.div
-            className={`${darkMode ? 'bg-[#171418] border-2 border-gradient-to-r from-red-500 to-orange-400' : 'bg-white border-2 border-gradient-to-r from-red-400 to-orange-300'} rounded-xl p-6 backdrop-blur-sm hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300`}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay }}
-            whileHover={{ y: -5, scale: 1.02 }}
-        >
-            <div className="flex items-center justify-between mb-4">
-                <h3 className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{title}</h3>
-                <span className={`w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-br from-red-500 via-orange-400 to-yellow-400 shadow-lg`}>
-                    <Icon className={`w-5 h-5 ${color}`} />
-                </span>
-            </div>
-            <div className={`text-3xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                {value}
-            </div>
-            <div className={`text-sm flex items-center ${change.includes('+') ? 'text-green-500' : change.includes('-') ? 'text-red-500' : 'text-orange-500'}`}>
-                <TrendingUp className="w-4 h-4 mr-1" />
-                {change} from last hour
-            </div>
-        </motion.div>
-    );
-};
+// Steps data for How It Works section
+const steps = [
+  {
+    title: 'Live Video Input',
+    desc: 'Government provides live video feeds or pre-recorded videos from 4 directions (lanes).',
+    icon: <BarChart3 className="w-7 h-7 text-red-500" />,
+    color: 'from-red-500 to-orange-400',
+  },
+  {
+    title: 'Vehicle Detection (YOLO + OpenCV)',
+    desc: 'Each video is processed individually to count vehicles using YOLOv5. Frames are sent to FastAPI backend for real-time inference.',
+    icon: <Clock className="w-7 h-7 text-orange-500" />,
+    color: 'from-orange-400 to-yellow-400',
+  },
+  {
+    title: 'Traffic Logic Controller (Node.js)',
+    desc: 'Gets vehicle counts from FastAPI, applies logic to decide which lane gets green, ensures only one lane is green at a time.',
+    icon: <TrendingUp className="w-7 h-7 text-yellow-500" />,
+    color: 'from-yellow-400 to-green-400',
+  },
+  {
+    title: 'Signal Update to Arduino',
+    desc: 'Sends control signals to Arduino via Wi-Fi (ESP8266). Arduino turns on respective LEDs for the selected lane.',
+    icon: <Zap className="w-7 h-7 text-green-500" />,
+    color: 'from-green-400 to-blue-400',
+  },
+  {
+    title: 'Frontend Display (React)',
+    desc: 'Shows current signal status, vehicle counts, and lane camera feed. Admin can also override in case of emergency.',
+    icon: <BarChart3 className="w-7 h-7 text-blue-500" />,
+    color: 'from-blue-400 to-purple-400',
+  },
+];
 
 const Landing = () => {
     const [darkMode, setDarkMode] = useState(true);
@@ -67,13 +74,6 @@ const Landing = () => {
     const [showTeam, setShowTeam] = useState(false);
 
     const toggleDarkMode = () => setDarkMode(!darkMode);
-
-    const statsData = [
-        { title: "Total Vehicles", value: "113", change: "+12%", icon: BarChart3, color: "text-green-500" },
-        { title: "Avg Wait Time", value: "45s", change: "-8%", icon: Clock, color: "text-yellow-500" },
-        { title: "Flow Rate", value: "24/min", change: "+5%", icon: TrendingUp, color: "text-blue-500" },
-        { title: "Efficiency", value: "87%", change: "+3%", icon: Zap, color: "text-red-500" }
-    ];
 
     return (
         <div className={`min-h-screen transition-colors duration-500 relative overflow-hidden ${darkMode ? 'bg-[#0B0F1A]' : 'bg-gray-50'}`}>
@@ -184,7 +184,7 @@ const Landing = () => {
 
                                 {/* Traffic Lights Animation */}
                                 <motion.div
-                                    className="flex justify-center items-center space-x-12 mt-16 mb-20"
+                                    className="flex justify-center items-center space-x-12 mt-16"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.8, delay: 0.5 }}
@@ -194,20 +194,98 @@ const Landing = () => {
                                     <TrafficLight darkMode={darkMode} delay={0.3} />
                                 </motion.div>
 
-                                {/* Stats Grid */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-                                    {statsData.map((stat, index) => (
-                                        <StatsCard
-                                            key={stat.title}
-                                            title={stat.title}
-                                            value={stat.value}
-                                            change={stat.change}
-                                            icon={stat.icon}
-                                            color={stat.color}
-                                            darkMode={darkMode}
-                                            delay={0.8 + index * 0.1}
-                                        />
-                                    ))}
+                                {/* How It Works Section */}
+                                <div className="max-w-4xl mx-auto mt-32">
+                                    <motion.h1
+                                        className="text-4xl md:text-5xl font-bold mb-6 text-center bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent"
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.7 }}
+                                    >
+                                        How Does the Project Work?
+                                    </motion.h1>
+                                    <motion.p
+                                        className="text-lg mb-12 text-center max-w-2xl mx-auto text-gray-300"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.7, delay: 0.2 }}
+                                    >
+                                        Our smart traffic system uses computer vision, IoT, and real-time logic to optimize traffic flow and safety. Here's a step-by-step overview:
+                                    </motion.p>
+                                    <div className="relative pl-8">
+                                        <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-red-500 via-orange-400 to-yellow-400 rounded-full" />
+                                        {steps.map((step, idx) => (
+                                            <motion.div
+                                                key={step.title}
+                                                className="flex items-start space-x-4 p-6 mb-6 rounded-xl shadow-lg relative bg-[#171418] text-center"
+                                                initial={{ opacity: 0, y: 30 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.5, delay: 0.3 + idx * 0.1 }}
+                                            >
+                                                <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${step.color} shadow-md absolute -left-16 top-1/2 -translate-y-1/2`}>
+                                                    {step.icon}
+                                                </div>
+                                                <div className="w-full text-center">
+                                                    <h3 className="text-2xl font-semibold mb-3 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">{step.title}</h3>
+                                                    <p className="text-base text-gray-300">{step.desc}</p>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Tech Stack & Traffic Logic */}
+                                <div className="grid md:grid-cols-2 gap-8 mt-16 max-w-4xl mx-auto">
+                                    {/* Tech Stack */}
+                                    <motion.div
+                                        className="bg-[#171418] border-red-900/30 border rounded-xl p-8 shadow-xl backdrop-blur-sm text-center"
+                                        initial={{ opacity: 0, y: 40 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.6, delay: 0.2 }}
+                                    >
+                                        <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">🏗️ Tech Stack</h3>
+                                        <div className="space-y-4">
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-gray-300">Frontend:</span>
+                                                <span className="text-blue-400 font-semibold">React.js</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-gray-300">Backend (AI):</span>
+                                                <span className="text-green-400 font-semibold">FastAPI + YOLOv5 + OpenCV</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-gray-300">Logic Controller:</span>
+                                                <span className="text-yellow-400 font-semibold">Node.js + Express</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-gray-300">Hardware:</span>
+                                                <span className="text-red-400 font-semibold">Arduino UNO + ESP8266 Wi-Fi</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-gray-300">Communication:</span>
+                                                <span className="text-orange-400 font-semibold">HTTP/WebSocket</span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                    {/* Traffic Logic Rules */}
+                                    <motion.div
+                                        className="bg-[#171418] border-red-900/30 border rounded-xl p-8 shadow-xl backdrop-blur-sm text-center"
+                                        initial={{ opacity: 0, y: 40 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.6, delay: 0.3 }}
+                                    >
+                                        <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-500 bg-clip-text text-transparent">🔁 Traffic Logic Rules</h3>
+                                        <div className="space-y-4">
+                                            <div className="p-4 rounded-lg bg-[#2a232b]"> 
+                                                <h4 className="font-semibold mb-2 text-red-400">Core Rule:</h4>
+                                                <p className="text-gray-300 text-sm">Only <strong>1 lane</strong> can have a green signal at any given time</p>
+                                            </div>
+                                            <div className="p-4 rounded-lg bg-[#2a232b]"> 
+                                                <h4 className="font-semibold mb-2 text-orange-400">Priority Logic:</h4>
+                                                <div className="bg-[#231E24] p-3 rounded font-mono text-sm text-green-400">{`if (laneA > laneB && laneA > laneC && laneA > laneD) {\n    green = A\n}`}</div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
                                 </div>
                             </motion.div>
                         </div>
