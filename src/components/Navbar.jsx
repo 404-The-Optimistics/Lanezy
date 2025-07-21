@@ -30,7 +30,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         <div className="relative group">
                             <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500 to-orange-400 rounded-full blur opacity-60 group-hover:opacity-100 transition duration-500"></div>
                             <img 
-                                src="/vite.svg" 
+                                src="/logo.png" 
                                 alt="Logo" 
                                 className="relative w-8 h-8 rounded-full shadow-lg bg-black"
                             />
