@@ -40,7 +40,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                             ? 'from-red-500 via-orange-400 to-yellow-500' 
                             : 'from-red-600 via-orange-500 to-yellow-600'
                         } bg-clip-text text-transparent`} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                            Red Light
+                            Lanezy
                         </span>
                     </motion.div>
 
@@ -91,7 +91,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                             </motion.button>
 
                             <motion.a
-                                href="https://github.com/404-The-Optimistics/f-Red-Light"
+                                href="https://github.com/404-The-Optimistics/Lanezy.git"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={`p-2 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${

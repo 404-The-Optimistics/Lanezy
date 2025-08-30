@@ -562,7 +562,7 @@ function TrafficDetectionDashboard({ darkMode, toggleDarkMode, onHowItWorksClick
               ? 'bg-gradient-to-r from-[#7C818C] via-[#493A45] to-orange-200 bg-clip-text text-transparent'
               : 'bg-gradient-to-r from-red-600 via-red-500 to-orange-500 bg-clip-text text-transparent'
           } font-serif`}>
-           Red Light Dashboard
+           Lanezy Dashboard
           </h1>
           <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
             Real-time vehicle detection and traffic flow analysis using advanced YOLO computer vision technology

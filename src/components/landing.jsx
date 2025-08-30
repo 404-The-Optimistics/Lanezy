@@ -138,7 +138,7 @@ const Landing = ({ darkMode, toggleDarkMode }) => {
                                     whileHover={{ scale: 1.02 }}
                                     transition={{ type: "spring", stiffness: 300 }}
                                 >
-                                    Red Light
+                                    Lanezy
                                 </motion.h1>
 
                                 <motion.p
