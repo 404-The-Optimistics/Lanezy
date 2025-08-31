@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from './Navbar';
 import Dashboard from './Dashboard';
@@ -6,20 +6,20 @@ import HowItWorks from './HowItWorks';
 import MapPage from './map';
 import Team from './team';
 import hero from "../assets/hero.mp4";
-
+import { useNavigate } from "react-router-dom";
 import { BarChart3, Clock, Zap, TrendingUp, ChevronDown } from 'lucide-react';
 
 // Enhanced Traffic Light Component with softer aesthetics
 const TrafficLight = ({ delay = 0 }) => {
   const [activeLight, setActiveLight] = useState(1);
-
+  
   React.useEffect(() => {
     const interval = setInterval(() => {1
       setActiveLight((prev) => (prev + 1) % 3);
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-
+  
   return (
     <motion.div
       className="relative"
@@ -84,11 +84,7 @@ const Landing = () => {
   const [showDashboard, setShowDashboard] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [showTeam, setShowTeam] = useState(false);
-
-  const navigate = (path) => {
-    // Mock navigation function
-    console.log(`Navigating to ${path}`);
-  };
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative overflow-hidden">
@@ -176,8 +172,8 @@ const Landing = () => {
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate('/dashboard')}
                   >
-                    <span className="flex items-center space-x-2">
-                      <a href='/dashboard'>Get Started</a>
+                    <span className="flex items-center space-x-2 cursor-pointer">
+                      <span>Get Started</span>
                       <motion.span
                         className="group-hover:translate-x-1 transition-transform duration-300"
                       >
@@ -192,8 +188,8 @@ const Landing = () => {
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate('/team')}
                   >
-                    <span className="flex items-center space-x-2">
-                      <a href='/team'>Our Team</a>
+                    <span className="flex items-center space-x-2 cursor-pointer">
+                      <span>Our Team</span>
                       <motion.span
                         className="group-hover:translate-x-1 transition-transform duration-300"
                       >
