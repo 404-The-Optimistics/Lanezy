@@ -14,11 +14,8 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     ];
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 ${
-            darkMode 
-            ? 'bg-gradient-to-r from-[#0B0F1A]/95 via-[#171418]/95 to-[#0B0F1A]/95' 
-            : 'bg-white/95'
-        } backdrop-blur-md border-b ${darkMode ? 'border-red-900/20' : 'border-gray-200'}`}>
+        <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/95
+         backdrop-blur-md border-b border-gray-200}`}>
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex items-center justify-between h-16">
                     <motion.div
@@ -75,23 +72,10 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         </motion.div>
 
                         <div className="flex items-center space-x-3">
-                            <motion.button
-                                onClick={toggleDarkMode}
-                                className={`p-2 rounded-lg ${
-                                    darkMode 
-                                    ? 'bg-[#171418] text-yellow-400 hover:bg-[#1a1719]' 
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                } transition-all duration-300 hover:scale-110`}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.6, delay: 0.4 }}
-                                whileTap={{ scale: 0.9 }}
-                            >
-                                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-                            </motion.button>
+
 
                             <motion.a
-                                href="https://github.com/404-The-Optimistics/Lanezy.git"
+                                href="https://github.com/JUGADU-GEEKS/Lanezy.git"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={`p-2 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${
