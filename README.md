@@ -1,10 +1,10 @@
-# 🚦 Smart Traffic Control System
+#  Smart Traffic Control System
 
 A 4-lane intelligent traffic management system using computer vision and IoT to detect traffic density and dynamically control signal lights. Built using YOLOv5 (OpenCV), FastAPI, Node.js, React, and Arduino (Wi-Fi).
 
 ---
 
-## 🔍 Objective
+##  Objective
 
 To create a smart system that:
 - Analyzes traffic density through live camera feeds.
@@ -13,8 +13,15 @@ To create a smart system that:
 - Sends the signal update to **Arduino** which controls LEDs representing traffic lights.
 
 ---
+## Screenshots
+**Main Interface:**
+![Main UI](/src/assets/1.png)
 
-## 🧠 Core Logic Flow
+**Detection Page:**
+![Price Result](src/assets/2.png)
+
+
+## Core Logic Flow
 
 1. **Live Video Input**  
    Government provides live video feeds or pre-recorded videos from 4 directions (lanes).
@@ -39,7 +46,7 @@ To create a smart system that:
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 - **Frontend:** React.js
 - **Backend (AI):** FastAPI + YOLOv5 + OpenCV
@@ -49,7 +56,7 @@ To create a smart system that:
 
 ---
 
-## 🔧 Basic Setup (for Team)
+##  Basic Setup (for Team)
 
 ### 1. FastAPI + YOLO (backend)
 - Use `ultralytics/yolov5`
