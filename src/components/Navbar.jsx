@@ -11,6 +11,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
         { label: 'Home', onClick: () => navigate('/') },
         { label: 'Dashboard', onClick: () => navigate('/dashboard') },
        //{ label: 'Map', onClick: () => navigate('/map') },
+       { label: 'SOS', onClick: () => navigate('/sos') },
     ];
 
     return (
