@@ -1,12 +1,12 @@
-//team.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Github, Users, Code, Palette } from 'lucide-react';
 import dhruvImg from '../assets/dhruv_sharma.jpg';
 import kunalImg from '../assets/kunal_sharma.jpg';
 import sangyaImg from '../assets/sangya_ojha.jpg';
-import Navbar from "./Navbar";
-
+import SakshiImg from '../assets/Sakshi.jpg';
+import devangImg from '../assets/devang.jpg';
+import anamitraImg from '../assets/anamitra.jpg';
 
 // Floating elements for background decoration (same as landing)
 const FloatingElement = ({ children, delay = 0, duration = 3 }) => (
@@ -26,7 +26,6 @@ const FloatingElement = ({ children, delay = 0, duration = 3 }) => (
   </motion.div>
 );
 
-// Enhanced Team Member Card Component with Landing UI styling
 // Enhanced Team Member Card Component with Landing UI styling
 const TeamMemberCard = ({ member, delay = 0 }) => {
   const getRoleIcon = (role) => {
@@ -121,7 +120,7 @@ const TeamMemberCard = ({ member, delay = 0 }) => {
 };
 
 // Main Team Component with Landing UI styling
-const Team = ({ }) => {
+const Team = () => {
   const teamMembers = [
     {
       name: "Kunal Sharma",
@@ -143,6 +142,27 @@ const Team = ({ }) => {
       linkedin: "https://www.linkedin.com/in/sangya-ojha-7a58a22a3/",
       github: "https://github.com/sangya-25",
       image: sangyaImg
+    },
+    {
+      name: "Sakshi Singh",
+      role: "Frontend Developer",
+      linkedin: "https://www.linkedin.com/in/sakshi-singh-123456789/", // <-- Update if you have correct link
+      github: "https://github.com/sakshi-singh", // <-- Update if you have correct link
+      image: SakshiImg
+    },
+    {
+      name: "Devang Singh",
+      role: "Full Stack Developer",
+      linkedin: "https://www.linkedin.com/in/devang-singh-123456789/", // <-- Update if you have correct link
+      github: "https://github.com/devang-singh", // <-- Update if you have correct link
+      image: devangImg
+    },
+    {
+      name: "Anamitra Bakshi",
+      role: "UI/UX Developer",
+      linkedin: "https://www.linkedin.com/in/anamitra-bakshi-123456789/", // <-- Update if you have correct link
+      github: "https://github.com/anamitra-bakshi", // <-- Update if you have correct link
+      image: anamitraImg
     }
   ];
 
