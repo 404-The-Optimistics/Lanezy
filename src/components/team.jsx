@@ -146,8 +146,8 @@ const Team = () => {
     {
       name: "Sakshi Singh",
       role: "Frontend Developer",
-      linkedin: "https://www.linkedin.com/in/sakshi-singh-123456789/", // <-- Update if you have correct link
-      github: "https://github.com/sakshi-singh", // <-- Update if you have correct link
+      linkedin: "https://www.linkedin.com/in/sakshi-singh-5176b9373?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", // <-- Update if you have correct link
+      github: "https://github.com/sakshisingh85", // <-- Update if you have correct link
       image: SakshiImg
     },
     {
@@ -160,8 +160,8 @@ const Team = () => {
     {
       name: "Anamitra Bakshi",
       role: "UI/UX Developer",
-      linkedin: "https://www.linkedin.com/in/anamitra-bakshi-123456789/", // <-- Update if you have correct link
-      github: "https://github.com/anamitra-bakshi", // <-- Update if you have correct link
+      linkedin: "https://www.linkedin.com/in/anamitra-bakshi-b021bb325?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", // <-- Update if you have correct link
+      github: "https://github.com/anamitra-tech", // <-- Update if you have correct link
       image: anamitraImg
     }
   ];
