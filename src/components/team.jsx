@@ -154,7 +154,7 @@ const Team = () => {
       name: "Devang Singh",
       role: "Full Stack Developer",
       linkedin: "https://www.linkedin.com/in/devang-singh-123456789/", // <-- Update if you have correct link
-      github: "https://github.com/devang-singh", // <-- Update if you have correct link
+      github: "https://github.com/devang9890", // <-- Update if you have correct link
       image: devangImg
     },
     {
